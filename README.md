@@ -31,6 +31,6 @@ I build modern web platforms, educational tools, and open-source integrations. M
 ## 📊 GitHub Stats
 
 <p align="center">
-  <img src="https://github-stats-extended.vercel.app/api?username=belajarcarabelajar&show_icons=true&theme=tokyonight&hide_border=true" alt="GitHub Stats" />
-  <img src="https://github-stats-extended.vercel.app/api/top-langs/?username=belajarcarabelajar&layout=compact&theme=tokyonight&hide_border=true" alt="Top Languages" />
+  <img src="https://github-stats-extended.vercel.app/api?username=belajarcarabelajar&show_icons=true&theme=tokyonight&hide_border=true&exclude_repo=obsidian-releases,swot,selfhosted-supabase-mcp" alt="GitHub Stats" />
+  <img src="https://github-stats-extended.vercel.app/api/top-langs/?username=belajarcarabelajar&layout=compact&theme=tokyonight&hide_border=true&exclude_repo=obsidian-releases,swot,selfhosted-supabase-mcp" alt="Top Languages" />
 </p>
