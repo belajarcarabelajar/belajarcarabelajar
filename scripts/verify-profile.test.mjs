@@ -126,11 +126,6 @@ function validReadme() {
     `## 📈 Activity`,
     VALID_STATS_BLOCK,
     ``,
-    `<!-- section: blog -->`,
-    `## ✍️ Blog`,
-    ``,
-    `Long-form notes on building software in public.`,
-    ``,
     `<!-- section: what-im-doing -->`,
     `## 🔨 What I'm Doing`,
     ``,
@@ -187,7 +182,6 @@ describe("section registry", () => {
       "15-badges.md": "badges",
       "20-starthere.md": "starthere",
       "21-activity.md": "activity",
-      "22-blog.md": "blog",
       "25-what-im-doing.md": "what-im-doing",
       "26-projects-flagship.md": "projects-flagship",
       "27-projects-oss.md": "projects-oss",
@@ -204,13 +198,12 @@ describe("section registry", () => {
     }
   });
 
-  test("required order is identity → badges → starthere → activity → blog → what-im-doing → projects → connect → recognition → philosophy-facts", () => {
+  test("required order is identity → badges → starthere → activity → what-im-doing → projects → connect → recognition → philosophy-facts", () => {
     expect(REQUIRED_SECTION_ORDER).toEqual([
       "identity",
       "badges",
       "starthere",
       "activity",
-      "blog",
       "what-im-doing",
       "projects-flagship",
       "projects-oss",
@@ -222,8 +215,8 @@ describe("section registry", () => {
     ]);
   });
 
-  test("registry covers exactly the 13 fragments plus README and the template", () => {
-    expect(SECTION_REGISTRY.length).toBe(15);
+  test("registry covers exactly the 12 fragments plus README and the template", () => {
+    expect(SECTION_REGISTRY.length).toBe(14);
     for (const required of REQUIRED_SECTION_ORDER) {
       expect(SECTION_REGISTRY.some((e) => e.section === required)).toBe(true);
     }
@@ -259,17 +252,17 @@ describe("section presence and order", () => {
 
   test("missing section fails", () => {
     const content = validReadme()
-      .replace(`<!-- section: blog -->\n## ✍️ Blog\n\nLong-form notes on building software in public.\n\n`, ``);
+      .replace(`<!-- section: what-im-doing -->\n## 🔨 What I'm Doing\n\nShipping the agent pipeline, writing about Rust, and answering e-mail.\n\n`, ``);
     const failures = checkSectionOrder({ content, file: "README.md", section: "all" });
     expect(rulesOf(failures)).toContain("section-missing");
-    expect(failures[0].message).toContain("blog");
+    expect(failures[0].message).toContain("what-im-doing");
   });
 
   test("duplicate section fails", () => {
-    const content = validReadme() + `\n<!-- section: blog -->\n`;
+    const content = validReadme() + `\n<!-- section: what-im-doing -->\n`;
     const failures = checkSectionOrder({ content, file: "README.md", section: "all" });
     expect(rulesOf(failures)).toContain("section-duplicate");
-    expect(failures[0].message).toContain("blog");
+    expect(failures[0].message).toContain("what-im-doing");
   });
 });
 
@@ -337,8 +330,8 @@ describe("exceptions", () => {
   test("EXCEPTION 2 — [PLACEHOLDER] also fails in a fragment", () => {
     const failures = checkPlaceholders({
       content: `- [Blog]([PLACEHOLDER])\n`,
-      file: "docs/fragments/22-blog.md",
-      section: "blog",
+      file: "docs/fragments/25-what-im-doing.md",
+      section: "what-im-doing",
     });
     expect(rulesOf(failures)).toContain("placeholder-leak");
   });
@@ -625,7 +618,7 @@ describe("validateContent / validateFile", () => {
   });
 
   test("validateFile reads a fixture from disk and infers the section", () => {
-    const abs = fixture("docs/fragments/22-blog.md", `## ✍️ Blog\n\n- [vivera](https://github.com/belajarcarabelajar/vivera)\n`);
+    const abs = fixture("docs/fragments/25-what-im-doing.md", `## 🔨 What I'm Doing\n\nShipping.\n`);
     const failures = validateFile({ file: abs, repoRoot: REPO_ROOT });
     expect(failures).toEqual([]);
   });

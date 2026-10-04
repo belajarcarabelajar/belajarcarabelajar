@@ -15,14 +15,7 @@ Founder @bcbacademy_ · [belajarcarabelajar.com](https://belajarcarabelajar.com)
 <!-- section: activity -->
 ## GitHub Activity
 <p align="center"><img src="https://gitlyy.vercel.app/api/contribution?username=belajarcarabelajar&hide_border=true" alt="GitHub Activity Graph" width="100%" /></p>
-<p align="center"><img src="https://github-stats-extended.vercel.app/api?username=belajarcarabelajar&show_icons=true&theme=tokyonight&hide_border=true" alt="GitHub Stats" width="49%" /> <img src="https://github-stats-extended.vercel.app/api/top-langs/?username=belajarcarabelajar&layout=compact&theme=tokyonight&hide_border=true" alt="Top Languages" width="49%" /></p>
-<!-- section: blog -->
-## Latest Posts
-
-- [Cara Belajar Efektif, Mudah Paham, dan Anti-Lupa](https://belajarcarabelajar.com/blog/cara-belajar-efektif)
-- [Cara Belajar Efektif, Hemat Waktu, dan Tanpa Stres](https://belajarcarabelajar.com/blog/cara-belajar-efektif-tanpa-stres)
-- [Jurus Rahasia untuk Mengatasi Kebosanan Saat Belajar](https://belajarcarabelajar.com/blog/jurus-mengatasi-kebosanan-saat-belajar)
-- [Caraku Hafalin Materi dengan Cepat dan Tahan Lama](https://belajarcarabelajar.com/blog/caraku-hafalin-materi-cepat-dan-tahan-lama)
+<table align="center"><tr><td align="center" width="50%"><img src="https://github-stats-extended.vercel.app/api?username=belajarcarabelajar&show_icons=true&theme=tokyonight&hide_border=true" alt="GitHub Stats" height="180" /></td><td align="center" width="50%"><img src="https://github-stats-extended.vercel.app/api/top-langs/?username=belajarcarabelajar&layout=compact&theme=tokyonight&hide_border=true" alt="Top Languages" height="180" /></td></tr></table>
 <!-- section: what-im-doing -->
 ## What I'm Doing
 - **Building Snipset** - encrypted note-taking with Obsidian sync, offline-first Tauri desktop
