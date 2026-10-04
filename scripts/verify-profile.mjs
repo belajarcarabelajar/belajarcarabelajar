@@ -48,7 +48,6 @@ export const SECTION_REGISTRY = [
   { prefix: "28", filename: "28-projects-ai.md", section: "projects-ai", heading: "ai & automation", keywords: ["ai", "ai & automation", "ai and automation", "automation", "machine learning", "agents"] },
   { prefix: "29", filename: "29-projects-tools.md", section: "projects-tools", heading: "tools & distribution", keywords: ["tools", "tools & distribution", "distribution"] },
   { prefix: "30", filename: "30-connect.md", section: "connect", heading: "connect", keywords: ["connect", "contact", "say hello", "find me", "elsewhere", "social"] },
-  { prefix: "35", filename: "35-recognition.md", section: "recognition", heading: "recognition", keywords: ["recognition", "awards", "mentions", "press", "speaking"] },
   { prefix: "38", filename: "38-philosophy-facts.md", section: "philosophy-facts", heading: "philosophy", keywords: ["philosophy", "random facts", "facts", "principles", "thinking"] },
   { prefix: null, filename: "README.md", section: "all", heading: null, keywords: [] },
   { prefix: null, filename: "PROFILE-README.template.md", section: "template", heading: null, keywords: [] },
@@ -66,7 +65,6 @@ export const REQUIRED_SECTION_ORDER = [
   "projects-ai",
   "projects-tools",
   "connect",
-  "recognition",
   "philosophy-facts",
 ];
 

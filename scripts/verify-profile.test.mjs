@@ -156,11 +156,6 @@ function validReadme() {
     ``,
     `- [belajarcarabelajar.com](https://belajarcarabelajar.com)`,
     ``,
-    `<!-- section: recognition -->`,
-    `## 🏅 Recognition`,
-    ``,
-    `Nothing to show yet.`,
-    ``,
     `<!-- section: philosophy-facts -->`,
     `## 🧭 Philosophy`,
     ``,
@@ -188,7 +183,6 @@ describe("section registry", () => {
       "28-projects-ai.md": "projects-ai",
       "29-projects-tools.md": "projects-tools",
       "30-connect.md": "connect",
-      "35-recognition.md": "recognition",
       "38-philosophy-facts.md": "philosophy-facts",
       "README.md": "all",
       "PROFILE-README.template.md": "template",
@@ -198,7 +192,7 @@ describe("section registry", () => {
     }
   });
 
-  test("required order is identity → badges → starthere → activity → what-im-doing → projects → connect → recognition → philosophy-facts", () => {
+  test("required order is identity → badges → starthere → activity → what-im-doing → projects → connect → philosophy-facts", () => {
     expect(REQUIRED_SECTION_ORDER).toEqual([
       "identity",
       "badges",
@@ -210,13 +204,12 @@ describe("section registry", () => {
       "projects-ai",
       "projects-tools",
       "connect",
-      "recognition",
       "philosophy-facts",
     ]);
   });
 
-  test("registry covers exactly the 12 fragments plus README and the template", () => {
-    expect(SECTION_REGISTRY.length).toBe(14);
+  test("registry covers exactly the 11 fragments plus README and the template", () => {
+    expect(SECTION_REGISTRY.length).toBe(13);
     for (const required of REQUIRED_SECTION_ORDER) {
       expect(SECTION_REGISTRY.some((e) => e.section === required)).toBe(true);
     }
@@ -852,13 +845,13 @@ describe("target glob", () => {
     const root = join(tmpRoot, `globlit${fixtureSeq++}`);
     mkdirSync(join(root, "docs/fragments"), { recursive: true });
     const a = join(root, "docs/fragments/30-connect.md");
-    const b = join(root, "docs/fragments/35-recognition.md");
+    const b = join(root, "docs/fragments/38-philosophy-facts.md");
     writeFileSync(a, `## 🔌 Connect\n\n- [belajarcarabelajar.com](https://belajarcarabelajar.com)\n`);
-    writeFileSync(b, `## 🏅 Recognition\n\n⭐ 42 stars of recognition\n`);
+    writeFileSync(b, `### Philosophy\n\n⭐ 42 stars of philosophy\n`);
 
     const res = runCli(["--target-glob", a, b, "--root", root]);
     expect(res.code).toBe(1);
-    expect(res.out).toContain("35-recognition.md");
+    expect(res.out).toContain("38-philosophy-facts.md");
     expect(res.out).not.toContain("30-connect.md — FAIL");
   });
 
@@ -895,7 +888,7 @@ describe("cli surface", () => {
   test("--target on a README missing a section exits 1", () => {
     const abs = fixture(
       "README.md",
-      validReadme().replace(`<!-- section: recognition -->\n## 🏅 Recognition\n\nNothing to show yet.\n\n`, ``),
+      validReadme().replace(`<!-- section: connect -->\n## 🔌 Connect\n\n- [belajarcarabelajar.com](https://belajarcarabelajar.com)\n\n`, ``),
     );
     const res = runCli(["--target", abs]);
     expect(res.code).toBe(1);

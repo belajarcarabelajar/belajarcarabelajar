@@ -1,5 +1,5 @@
 <!-- section: projects-ai -->
 ### AI & Automation
-- [vivera](https://github.com/belajarcarabelajar/vivera) - AI coding-agent pipeline with approval gates
-- [adaptiva](https://github.com/belajarcarabelajar/adaptiva) - adaptive learning paths on Gemini
-- [time-capsule](https://github.com/belajarcarabelajar/time-capsule) - historical time-travel simulation
+- [vivera](https://github.com/belajarcarabelajar/vivera) - skill pipeline for AI coding agents: brainstorm, plan, TDD, verify
+- [adaptiva](https://github.com/belajarcarabelajar/adaptiva) - Gemini-powered learning paths, quizzes, and tutoring
+- [time-capsule](https://github.com/belajarcarabelajar/time-capsule) - AI-driven historical time-travel simulation

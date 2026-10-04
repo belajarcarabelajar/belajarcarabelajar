@@ -18,37 +18,35 @@ Founder @bcbacademy_ · [belajarcarabelajar.com](https://belajarcarabelajar.com)
 <table align="center"><tr><td align="center" width="50%"><img src="https://github-stats-extended.vercel.app/api?username=belajarcarabelajar&show_icons=true&theme=tokyonight&hide_border=true" alt="GitHub Stats" height="180" /></td><td align="center" width="50%"><img src="https://github-stats-extended.vercel.app/api/top-langs/?username=belajarcarabelajar&layout=compact&theme=tokyonight&hide_border=true" alt="Top Languages" height="180" /></td></tr></table>
 <!-- section: what-im-doing -->
 ## What I'm Doing
-- **Building Snipset** - encrypted note-taking with Obsidian sync, offline-first Tauri desktop
-- **Shipping vivera** - an AI coding-agent skill pipeline with plan gates and verification
-- **Writing about meta-learning** - study methods that stick, on belajarcarabelajar.com/blog
-- **Teaching at BCB Academy** - courses and e-books on effective study
+- **Building Snipset** - Rust and Tauri desktop for text expansion, clipboard history, journal, and Pomodoro
+- **Shipping vivera** - Bun pipeline for AI coding agents: plan gates, TDD, verification
+- **Writing about meta-learning** - practical study methods on belajarcarabelajar.com/blog
+- **Teaching at BCB Academy** - e-books and courses on learning how to learn
 <!-- section: projects-flagship -->
 ## Current Projects
 
 ### Flagship Products
-- ✂️ **[Snipset](https://snipset.belajarcarabelajar.com)** - snippet manager that keeps reusable knowledge ready to paste
-- ⚡ **[satset](https://satset.belajarcarabelajar.com)** - focused workspace for fast notes and daily execution
-- 💳 **[ratecard](https://ratecard.belajarcarabelajar.com)** - clear rate cards for freelancers and creators
-- 🎓 **[flash-course](https://course.belajarcarabelajar.com/)** - bite-size courses for building practical skills
-- 📱 **[belajarcarabelajar-app](https://app.belajarcarabelajar.com/)** - central hub for learning progress and community
+- ✂️ **[Snipset](https://snipset.belajarcarabelajar.com)** - text expander, clipboard manager, journal, and Pomodoro in one offline-first desktop
+- ⚡ **[satset](https://satset.belajarcarabelajar.com)** - end-to-end encrypted notes with Telegram integration and Obsidian sync
+- 💳 **[ratecard](https://ratecard.belajarcarabelajar.com)** - creator rate card with auto-synced social metrics
+- 🎓 **[flash-course](https://course.belajarcarabelajar.com/)** - e-course on meta-learning: learning how to learn
+- 📱 **[belajarcarabelajar-app](https://app.belajarcarabelajar.com/)** - spaced-repetition study platform with active recall
 <!-- section: projects-oss -->
 ### Open Source
-
-- [dawnbook](https://github.com/belajarcarabelajar/dawnbook) - Markdown book publishing on mdBook
-- [rasalytics](https://github.com/belajarcarabelajar/rasalytics) - YouTube comment sentiment analysis, Indonesian-tuned
-- [jatimetri](https://github.com/belajarcarabelajar/jatimetri) - psychological assessment on React and Cloudflare Workers
-- [satset-obsidian-sync](https://github.com/belajarcarabelajar/satset-obsidian-sync) - encrypted notes sync into Obsidian
+- [dawnbook](https://github.com/belajarcarabelajar/dawnbook) - collaborative education-book publishing on Markdown and mdBook
+- [rasalytics](https://github.com/belajarcarabelajar/rasalytics) - YouTube comment sentiment analysis tuned for Indonesian and English
+- [jatimetri](https://github.com/belajarcarabelajar/jatimetri) - psychology-based potential assessment on React and Cloudflare Workers
+- [satset-obsidian-sync](https://github.com/belajarcarabelajar/satset-obsidian-sync) - encrypted Satset notes synced into Obsidian
 <!-- section: projects-ai -->
 ### AI & Automation
-- [vivera](https://github.com/belajarcarabelajar/vivera) - AI coding-agent pipeline with approval gates
-- [adaptiva](https://github.com/belajarcarabelajar/adaptiva) - adaptive learning paths on Gemini
-- [time-capsule](https://github.com/belajarcarabelajar/time-capsule) - historical time-travel simulation
+- [vivera](https://github.com/belajarcarabelajar/vivera) - skill pipeline for AI coding agents: brainstorm, plan, TDD, verify
+- [adaptiva](https://github.com/belajarcarabelajar/adaptiva) - Gemini-powered learning paths, quizzes, and tutoring
+- [time-capsule](https://github.com/belajarcarabelajar/time-capsule) - AI-driven historical time-travel simulation
 <!-- section: projects-tools -->
 ### Tools & Distribution
-
-- [snipset-cli](https://github.com/belajarcarabelajar/snipset-cli) - installers for the Snipset CLI
-- [scoop-snipset](https://github.com/belajarcarabelajar/scoop-snipset) - Scoop bucket for Snipset desktop
-- [Snipset-assets](https://github.com/belajarcarabelajar/Snipset-assets) - prebuilt engine binaries
+- [snipset-cli](https://github.com/belajarcarabelajar/snipset-cli) - installers and releases for the Snipset CLI
+- [scoop-snipset](https://github.com/belajarcarabelajar/scoop-snipset) - one-command Snipset install via Scoop
+- [Snipset-assets](https://github.com/belajarcarabelajar/Snipset-assets) - prebuilt Snipset engine binaries
 <!-- section: connect -->
 ## Connect
 
@@ -73,10 +71,6 @@ Founder @bcbacademy_ · [belajarcarabelajar.com](https://belajarcarabelajar.com)
 - [CV](https://wans.belajarcarabelajar.com/cv-iwankurniawan)
 - [about.me](https://about.me/iwan.kurniawan)
 - [iwan@belajarcarabelajar.com](mailto:iwan@belajarcarabelajar.com)
-<!-- section: recognition -->
-### Media
-- Author of Belajar Cara Belajar and Rombak Cara Belajar
-- Featured writing on belajarcarabelajar.com/blog
 <!-- section: philosophy-facts -->
 ### Philosophy
 > Learning how to learn beats learning what to learn — master the method once, and every subject after it gets easier.
