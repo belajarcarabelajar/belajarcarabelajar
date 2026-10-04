@@ -1,4 +1,6 @@
 <!-- section: projects-flagship -->
+## Current Projects
+
 ### Flagship Products
 - ✂️ **[Snipset](https://snipset.belajarcarabelajar.com)** - snippet manager that keeps reusable knowledge ready to paste
 - ⚡ **[satset](https://satset.belajarcarabelajar.com)** - focused workspace for fast notes and daily execution

@@ -23,6 +23,8 @@ Founder @bcbacademy_ · [belajarcarabelajar.com](https://belajarcarabelajar.com)
 - **Writing about meta-learning** - study methods that stick, on belajarcarabelajar.com/blog
 - **Teaching at BCB Academy** - courses and e-books on effective study
 <!-- section: projects-flagship -->
+## Current Projects
+
 ### Flagship Products
 - ✂️ **[Snipset](https://snipset.belajarcarabelajar.com)** - snippet manager that keeps reusable knowledge ready to paste
 - ⚡ **[satset](https://satset.belajarcarabelajar.com)** - focused workspace for fast notes and daily execution
