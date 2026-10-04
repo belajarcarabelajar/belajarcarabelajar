@@ -46,6 +46,7 @@ import {
   checkGitHubRepoLinks,
   checkImagesAndBadges,
   checkStatsPresence,
+  checkHtmlBoundaries,
   main,
 } from "./verify-profile.mjs";
 
@@ -981,5 +982,48 @@ describe("parent audit 2026-10-04 — gitlyy contribution graph", () => {
   test("gitlyy contribution URL satisfies the contribution-graph requirement", () => {
     const content = `<img src="https://gitlyy.vercel.app/api/contribution?username=belajarcarabelajar&hide_border=true" alt="GitHub Activity Graph" /><img src="https://github-stats-extended.vercel.app/api?username=belajarcarabelajar" alt="GitHub Stats" />`;
     expect(checkStatsPresence({ content, file: "README.md", section: "all" })).toEqual([]);
+  });
+});
+
+/* Parent audit — HTML block swallowing What I'm Doing (screenshot 2026-10-04).
+   A `<p>...</p>` line followed directly by Markdown renders the Markdown as
+   literal text, because an HTML block only ends at a blank line. */
+describe("parent audit — html block boundaries", () => {
+  const run = (content, section = "all") =>
+    checkHtmlBoundaries({ content, file: "README.md", section });
+
+  test("html block line followed directly by a heading fails", () => {
+    const failures = run(`<p align="center"><img src="https://example.com/a.png" alt="A" /></p>\n## What I'm Doing\n`);
+    expect(rulesOf(failures)).toContain("html-block-blank-line");
+    expect(failures[0].message).toContain("line 2");
+  });
+
+  test("html block line followed by a blank line passes", () => {
+    expect(run(`<p align="center"><img src="https://example.com/a.png" alt="A" /></p>\n\n## What I'm Doing\n`)).toEqual([]);
+  });
+
+  test("html block line followed by another html line passes", () => {
+    expect(run(`<p align="center">x</p>\n<table><tr><td>y</td></tr></table>\n\n## Next\n`)).toEqual([]);
+  });
+
+  test("complete single-line comment followed by a heading passes", () => {
+    expect(run(`<!-- section: what-im-doing -->\n## What I'm Doing\n`)).toEqual([]);
+  });
+
+  test("html block run through a comment into a heading fails", () => {
+    const failures = run(`<table><tr><td>x</td></tr></table>\n<!-- section: what-im-doing -->\n## What I'm Doing\n`);
+    expect(rulesOf(failures)).toContain("html-block-blank-line");
+    expect(failures[0].message).toContain("line 3");
+  });
+
+  test("details summary followed directly by a list fails", () => {
+    const failures = run(`<details><summary>Random Facts</summary>\n- item one\n</details>\n`);
+    expect(rulesOf(failures)).toContain("html-block-blank-line");
+  });
+
+  test("the template section is exempt", () => {
+    expect(
+      checkHtmlBoundaries({ content: `<p>x</p>\n## Heading\n`, file: "docs/PROFILE-README.template.md", section: "template" }),
+    ).toEqual([]);
   });
 });

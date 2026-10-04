@@ -719,6 +719,47 @@ function checkShieldsBadge({ url, file, section, line }) {
 }
 
 /* ------------------------------------------------------------------ */
+/* 8b. HTML block boundaries — a line starting an HTML block swallows every   */
+/* following line until a blank line, so headings and lists written after a   */
+/* `<p>`, `<table>` or `<details><summary>` line render as literal text.      */
+/* Parent audit: this exact defect shipped What I'm Doing as one paragraph.   */
+/* ------------------------------------------------------------------ */
+
+/**
+ * EXCEPTION: the template file is scaffolding prose, not shipped Markdown.
+ * Single-line complete comments (`<!-- ... -->`) open AND close on the same
+ * line. They never START a block, and they never END one either — an HTML
+ * block runs straight through them — so they are transparent to this check
+ * in both positions.
+ */
+export function checkHtmlBoundaries({ content, file, section }) {
+  const failures = [];
+  if (section === "template") return failures;
+  const lines = content.split("\n");
+  const completeComment = /^\s*<!--.*-->\s*$/;
+  const htmlOpen = /^\s*</;
+  const blank = /^\s*$/;
+  for (let i = 0; i < lines.length; i++) {
+    if (completeComment.test(lines[i])) continue;
+    if (!htmlOpen.test(lines[i])) continue;
+    let j = i + 1;
+    while (j < lines.length && (htmlOpen.test(lines[j]) || completeComment.test(lines[j]))) j++;
+    if (j >= lines.length) continue;
+    if (blank.test(lines[j])) continue;
+    failures.push(
+      fail(
+        file,
+        section,
+        "html-block-blank-line",
+        `line ${i + 1} opens an HTML block that swallows line ${j + 1} — put a blank line between them or the Markdown renders as literal text`,
+        i + 1,
+      ),
+    );
+  }
+  return failures;
+}
+
+/* ------------------------------------------------------------------ */
 /* 9. Contribution graph + GitHub Stats presence                        */
 /* ------------------------------------------------------------------ */
 
@@ -750,7 +791,7 @@ export function checkStatsPresence({ content, file, section }) {
 
 /** The offline check set that applies to a target with the given section. */
 export function checksForSection(section) {
-  const checks = [checkForbiddenFigures, checkPlaceholders, checkLinks, checkGitHubRepoLinks, checkImagesAndBadges];
+  const checks = [checkForbiddenFigures, checkPlaceholders, checkLinks, checkGitHubRepoLinks, checkImagesAndBadges, checkHtmlBoundaries];
   if (section === "all") checks.push(checkSectionOrder, checkStatsPresence);
   return checks;
 }

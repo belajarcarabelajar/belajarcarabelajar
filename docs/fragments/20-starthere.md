@@ -6,3 +6,4 @@
 - 🧠 **[adaptiva](https://github.com/belajarcarabelajar/adaptiva)** - adaptive learning paths and quizzes on Gemini
 - ⏳ **[time-capsule](https://github.com/belajarcarabelajar/time-capsule)** - interactive historical time-travel simulation
 - 🎓 **[BCB Academy](https://belajarcarabelajar.com)** - courses and e-books on effective study
+

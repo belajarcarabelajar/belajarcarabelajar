@@ -7,3 +7,4 @@
 - 💳 **[ratecard](https://ratecard.belajarcarabelajar.com)** - creator rate card with auto-synced social metrics
 - 🎓 **[flash-course](https://course.belajarcarabelajar.com/)** - e-course on meta-learning: learning how to learn
 - 📱 **[belajarcarabelajar-app](https://app.belajarcarabelajar.com/)** - spaced-repetition study platform with active recall
+
