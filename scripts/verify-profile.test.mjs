@@ -917,10 +917,26 @@ describe("cli surface", () => {
   });
 
   test("main() resolves to an exit code and does not call process.exit itself", async () => {
-    const abs = fixture("README.md", validReadme());
-    expect(await main(["--target", abs], { repoRoot: REPO_ROOT })).toBe(0);
-    const bad = fixture("README2.md", `- [x](undefined)\n`);
-    expect(await main(["--target", bad], { repoRoot: REPO_ROOT })).toBe(1);
+    // main() writes PASS/FAIL lines to process.stdout. Intercept it so the
+    // validator's own output does not leak into `bun test` output and read as
+    // failures (F2, 2026-10-04). The captured text is still asserted on.
+    const origWrite = process.stdout.write.bind(process.stdout);
+    let captured = "";
+    process.stdout.write = ((chunk) => {
+      captured += String(chunk);
+      return true;
+    });
+    try {
+      const abs = fixture("README.md", validReadme());
+      expect(await main(["--target", abs], { repoRoot: REPO_ROOT })).toBe(0);
+      expect(captured).toContain("PASS");
+      captured = "";
+      const bad = fixture("README2.md", `- [x](undefined)\n`);
+      expect(await main(["--target", bad], { repoRoot: REPO_ROOT })).toBe(1);
+      expect(captured).toMatch(/FAIL .* malformed-link/);
+    } finally {
+      process.stdout.write = origWrite;
+    }
   });
 
   test("unknown flags are rejected", () => {
