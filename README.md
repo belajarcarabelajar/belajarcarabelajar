@@ -22,10 +22,10 @@ Founder @bcbacademy_ · [belajarcarabelajar.com](https://belajarcarabelajar.com)
 
 <!-- section: what-im-doing -->
 ## What I'm Doing
-- **Building Snipset** - Rust and Tauri desktop for text expansion, clipboard history, journal, and Pomodoro
-- **Shipping vivera** - Bun pipeline for AI coding agents: plan gates, TDD, verification
-- **Writing about meta-learning** - practical study methods on belajarcarabelajar.com/blog
-- **Teaching at BCB Academy** - e-books and courses on learning how to learn
+- 🔨 **Building Snipset** - Rust and Tauri desktop for text expansion, clipboard history, journal, and Pomodoro
+- 🚀 **Shipping vivera** - Bun pipeline for AI coding agents: plan gates, TDD, verification
+- ✍️ **Writing about meta-learning** - practical study methods on belajarcarabelajar.com/blog
+- 🎓 **Teaching at BCB Academy** - e-books and courses on learning how to learn
 
 <!-- section: projects-flagship -->
 ## Current Projects
@@ -39,22 +39,22 @@ Founder @bcbacademy_ · [belajarcarabelajar.com](https://belajarcarabelajar.com)
 
 <!-- section: projects-oss -->
 ### Open Source
-- [dawnbook](https://github.com/belajarcarabelajar/dawnbook) - collaborative education-book publishing on Markdown and mdBook
-- [rasalytics](https://github.com/belajarcarabelajar/rasalytics) - YouTube comment sentiment analysis tuned for Indonesian and English
-- [jatimetri](https://github.com/belajarcarabelajar/jatimetri) - psychology-based potential assessment on React and Cloudflare Workers
-- [satset-obsidian-sync](https://github.com/belajarcarabelajar/satset-obsidian-sync) - encrypted Satset notes synced into Obsidian
+- 📚 [dawnbook](https://github.com/belajarcarabelajar/dawnbook) - collaborative education-book publishing on Markdown and mdBook
+- 📊 [rasalytics](https://github.com/belajarcarabelajar/rasalytics) - YouTube comment sentiment analysis tuned for Indonesian and English
+- 🧪 [jatimetri](https://github.com/belajarcarabelajar/jatimetri) - psychology-based potential assessment on React and Cloudflare Workers
+- 🔄 [satset-obsidian-sync](https://github.com/belajarcarabelajar/satset-obsidian-sync) - encrypted Satset notes synced into Obsidian
 
 <!-- section: projects-ai -->
 ### AI & Automation
-- [vivera](https://github.com/belajarcarabelajar/vivera) - skill pipeline for AI coding agents: brainstorm, plan, TDD, verify
-- [adaptiva](https://github.com/belajarcarabelajar/adaptiva) - Gemini-powered learning paths, quizzes, and tutoring
-- [time-capsule](https://github.com/belajarcarabelajar/time-capsule) - AI-driven historical time-travel simulation
+- 🧬 [vivera](https://github.com/belajarcarabelajar/vivera) - skill pipeline for AI coding agents: brainstorm, plan, TDD, verify
+- 🧠 [adaptiva](https://github.com/belajarcarabelajar/adaptiva) - Gemini-powered learning paths, quizzes, and tutoring
+- ⏳ [time-capsule](https://github.com/belajarcarabelajar/time-capsule) - AI-driven historical time-travel simulation
 
 <!-- section: projects-tools -->
 ### Tools & Distribution
-- [snipset-cli](https://github.com/belajarcarabelajar/snipset-cli) - installers and releases for the Snipset CLI
-- [scoop-snipset](https://github.com/belajarcarabelajar/scoop-snipset) - one-command Snipset install via Scoop
-- [Snipset-assets](https://github.com/belajarcarabelajar/Snipset-assets) - prebuilt Snipset engine binaries
+- 💻 [snipset-cli](https://github.com/belajarcarabelajar/snipset-cli) - installers and releases for the Snipset CLI
+- 🪣 [scoop-snipset](https://github.com/belajarcarabelajar/scoop-snipset) - one-command Snipset install via Scoop
+- 📦 [Snipset-assets](https://github.com/belajarcarabelajar/Snipset-assets) - prebuilt Snipset engine binaries
 
 <!-- section: connect -->
 ## Connect
