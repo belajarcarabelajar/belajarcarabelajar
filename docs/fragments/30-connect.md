@@ -21,4 +21,4 @@
 - [LinkedIn](https://id.linkedin.com/in/iwan-kurniawan21)
 - [CV](https://wans.belajarcarabelajar.com/cv-iwankurniawan)
 - [about.me](https://about.me/iwan.kurniawan)
-- [wans@belajarcarabelajar.com](mailto:wans@belajarcarabelajar.com)
+- [iwan@belajarcarabelajar.com](mailto:iwan@belajarcarabelajar.com)

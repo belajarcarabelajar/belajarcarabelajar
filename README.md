@@ -70,7 +70,7 @@ Founder @bcbacademy_ · [belajarcarabelajar.com](https://belajarcarabelajar.com)
 - [LinkedIn](https://id.linkedin.com/in/iwan-kurniawan21)
 - [CV](https://wans.belajarcarabelajar.com/cv-iwankurniawan)
 - [about.me](https://about.me/iwan.kurniawan)
-- [wans@belajarcarabelajar.com](mailto:wans@belajarcarabelajar.com)
+- [iwan@belajarcarabelajar.com](mailto:iwan@belajarcarabelajar.com)
 <!-- section: recognition -->
 ### Recognition
 - Google Gemini Certified Educator, valid through 2028
