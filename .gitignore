@@ -1,0 +1,8 @@
+
+
+# Secrets and local env (added 2026-10-16 after Cloudflare secrets audit)
+.env
+.env.*
+!.env.example
+.dev.vars
+.dev.vars.*
