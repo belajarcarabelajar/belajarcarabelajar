@@ -9,7 +9,6 @@
 - [Pinterest](https://www.pinterest.com/belajarcarabelajar)
 - [Tumblr](https://belajarcarabelajar.tumblr.com)
 - [Vimeo](https://vimeo.com/belajarcarabelajar)
-- [RSS](https://belajarcarabelajar.com/rss.xml)
 
 ### Podcast
 
