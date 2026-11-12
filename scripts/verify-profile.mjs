@@ -96,6 +96,7 @@ export const KNOWN_PUBLIC_REPOS = new Set([
   "contoh-tts",
   "dawnbook",
   "jatimetri",
+  "pubmy",
   "rasalytics",
   "satset-obsidian-sync",
   "scoop-snipset",

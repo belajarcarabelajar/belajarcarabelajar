@@ -709,6 +709,7 @@ describe("T3 — eligibility classification (--rules asserts the decision)", () 
     expect(typeof classifyRepoLink).toBe("function");
     expect(classifyRepoLink("vivera")).toBe("PUBLIC");
     expect(classifyRepoLink("snipset-cli")).toBe("PUBLIC");
+    expect(classifyRepoLink("pubmy")).toBe("PUBLIC");
     expect(classifyRepoLink("snipset")).toBe("PRIVATE_WITH_WEBSITE");
     expect(classifyRepoLink("satset")).toBe("PRIVATE_WITH_WEBSITE");
     expect(classifyRepoLink("berdu")).toBe("DENIED");
