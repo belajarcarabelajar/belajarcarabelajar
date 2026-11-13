@@ -132,8 +132,7 @@ const svgResponse = (body: string, maxAge: number, extra: Record<string, string>
     headers: { "content-type": "image/svg+xml; charset=utf-8", "cache-control": `public, max-age=${maxAge}`, ...extra },
   });
 
-export async function handle(req: Request, o: Options): Promise<Response> {
-  if (new URL(req.url).pathname !== "/card.svg") return new Response("Not found", { status: 404 });
+export async function buildCard(o: Options): Promise<string> {
   const fetchFn = o.fetchFn ?? fetch;
   const gql = async (query: string, variables: Record<string, unknown>) => {
     const res = await fetchFn("https://api.github.com/graphql", {
@@ -144,20 +143,59 @@ export async function handle(req: Request, o: Options): Promise<Response> {
     if (!res.ok) throw new Error(`GitHub API ${res.status}`);
     return res.json();
   };
-  try {
-    const { id, ...profile } = parseStats(await gql(PROFILE_QUERY, { login: o.login }));
-    const since = new Date((o.now ?? Date.now()) - 365 * 24 * 3600 * 1000).toISOString();
-    let commits = 0;
-    let cursor: string | null = null;
-    for (let page = 0; page < MAX_COMMIT_PAGES; page++) {
-      const r = parseCommitPage(await gql(COMMITS_QUERY, { login: o.login, id, since, cursor }));
-      commits += r.commits;
-      if (!r.next) break;
-      cursor = r.next;
-    }
-    return svgResponse(renderCard({ ...profile, commits }), FRESH_SECONDS);
-  } catch (err) {
-    console.error("stats fetch failed:", err instanceof Error ? err.message : err);
-    return svgResponse(renderUnavailable(), ERROR_SECONDS, { "x-stats": "unavailable" });
+  const { id, ...profile } = parseStats(await gql(PROFILE_QUERY, { login: o.login }));
+  const since = new Date((o.now ?? Date.now()) - 365 * 24 * 3600 * 1000).toISOString();
+  let commits = 0;
+  let cursor: string | null = null;
+  for (let page = 0; page < MAX_COMMIT_PAGES; page++) {
+    const r = parseCommitPage(await gql(COMMITS_QUERY, { login: o.login, id, since, cursor }));
+    commits += r.commits;
+    if (!r.next) break;
+    cursor = r.next;
   }
+  return renderCard({ ...profile, commits });
+}
+
+// Stored in KV under "card". `tried` marks a failed refresh, so GitHub is not
+// asked again for FRESH_SECONDS after an error.
+type Entry = { svg: string; at: number; tried?: number };
+
+type ServeDeps = {
+  kv: { get(key: string, type: "json"): Promise<Entry | null>; put(key: string, value: string): Promise<void> };
+  now: number;
+  build: () => Promise<string>;
+  waitUntil: (p: Promise<unknown>) => void;
+};
+
+// Always answers from KV without waiting on GitHub (GitHub's image proxy times
+// out on slow origins; a cold build took ~4.7 s). A card older than
+// FRESH_SECONDS is rebuilt after the response, at most once per FRESH_SECONDS.
+export async function serveCard(req: Request, d: ServeDeps): Promise<Response> {
+  if (new URL(req.url).pathname !== "/card.svg") return new Response("Not found", { status: 404 });
+  const entry = await d.kv.get("card", "json");
+
+  if (!entry) {
+    try {
+      const svg = await d.build();
+      d.waitUntil(d.kv.put("card", JSON.stringify({ svg, at: d.now })));
+      return svgResponse(svg, FRESH_SECONDS);
+    } catch (err) {
+      console.error("stats build failed:", err instanceof Error ? err.message : err);
+      return svgResponse(renderUnavailable(), ERROR_SECONDS);
+    }
+  }
+
+  const lastAttempt = Math.max(entry.at, entry.tried ?? 0);
+  if (d.now - lastAttempt > FRESH_SECONDS * 1000) {
+    d.waitUntil(
+      d
+        .build()
+        .then((svg) => d.kv.put("card", JSON.stringify({ svg, at: d.now })))
+        .catch((err) => {
+          console.error("stats refresh failed:", err instanceof Error ? err.message : err);
+          return d.kv.put("card", JSON.stringify({ ...entry, tried: d.now }));
+        }),
+    );
+  }
+  return svgResponse(entry.svg, FRESH_SECONDS);
 }

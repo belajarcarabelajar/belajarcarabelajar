@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { parseStats, parseCommitPage, renderCard, renderUnavailable, handle } from "../src/stats.ts";
+import { parseStats, parseCommitPage, renderCard, renderUnavailable, buildCard, serveCard } from "../src/stats.ts";
 
 // Shapes of real GitHub GraphQL responses (values from the account on
 // 2026-11-13), so the expected numbers are independent literals.
@@ -83,7 +83,7 @@ describe("renderCard", () => {
   });
 });
 
-describe("handle", () => {
+describe("buildCard", () => {
   // Answers the profile query, then two commit pages chained by cursor.
   const pagedFetch = async (_input: RequestInfo, init?: RequestInit) => {
     const body = JSON.parse(String(init?.body));
@@ -91,18 +91,11 @@ describe("handle", () => {
     if (!body.variables.cursor) return Response.json(commitPage([10000, 2985], "p2"));
     return Response.json(commitPage([3881], null));
   };
-  const req = () => new Request("https://stats.example/card.svg");
-
-  test("serves the card as svg with a 15-minute cache header", async () => {
-    const res = await handle(req(), { token: "t", login: "belajarcarabelajar", fetchFn: pagedFetch });
-    expect(res.status).toBe(200);
-    expect(res.headers.get("content-type")).toBe("image/svg+xml; charset=utf-8");
-    expect(res.headers.get("cache-control")).toBe("public, max-age=900");
-  });
 
   test("adds up commits across every page of repositories", async () => {
-    const res = await handle(req(), { token: "t", login: "belajarcarabelajar", fetchFn: pagedFetch });
-    expect(await res.text()).toContain(">16,866<");
+    const svg = await buildCard({ token: "t", login: "belajarcarabelajar", fetchFn: pagedFetch });
+    expect(svg).toContain(">16,866<");
+    expect(svg).toContain(">1,963<");
   });
 
   test("passes the user id and a one-year window to the commit query", async () => {
@@ -111,8 +104,7 @@ describe("handle", () => {
       bodies.push(JSON.parse(String(init?.body)));
       return pagedFetch(input, init);
     };
-    const now = Date.parse("2026-11-13T00:00:00Z");
-    await handle(req(), { token: "t", login: "belajarcarabelajar", fetchFn: spy, now });
+    await buildCard({ token: "t", login: "belajarcarabelajar", fetchFn: spy, now: Date.parse("2026-11-13T00:00:00Z") });
     const commitQuery = bodies.find((b) => b.query.includes("history"));
     expect(commitQuery.variables.id).toBe("U_abc");
     expect(commitQuery.variables.since).toBe("2025-11-13T00:00:00.000Z");
@@ -124,7 +116,7 @@ describe("handle", () => {
       seen = new Request(input, init);
       return pagedFetch(input, init);
     };
-    await handle(req(), { token: "abc", login: "belajarcarabelajar", fetchFn: spy });
+    await buildCard({ token: "abc", login: "belajarcarabelajar", fetchFn: spy });
     expect(seen?.url).toBe("https://api.github.com/graphql");
     expect(seen?.headers.get("authorization")).toBe("Bearer abc");
   });
@@ -137,21 +129,105 @@ describe("handle", () => {
       calls++;
       return Response.json(commitPage([1], `p${calls + 1}`));
     };
-    const res = await handle(req(), { token: "t", login: "x", fetchFn: endless });
+    const svg = await buildCard({ token: "t", login: "x", fetchFn: endless });
     expect(calls).toBe(5);
-    expect(await res.text()).toContain(">5<");
+    expect(svg).toContain(">5<");
+  });
+
+  test("throws when GitHub answers with an error status", async () => {
+    const bad = async () => new Response("nope", { status: 502 });
+    await expect(buildCard({ token: "t", login: "x", fetchFn: bad })).rejects.toThrow("GitHub API 502");
+  });
+});
+
+describe("serveCard", () => {
+  const MIN = 60_000;
+  const T0 = Date.parse("2026-11-13T00:00:00Z");
+
+  // In-memory stand-in for a KV namespace (system boundary).
+  function fakeKv(initial?: unknown) {
+    const store = new Map<string, string>();
+    if (initial) store.set("card", JSON.stringify(initial));
+    const puts: unknown[] = [];
+    return {
+      puts,
+      kv: {
+        get: async (k: string, _t: "json") => (store.has(k) ? JSON.parse(store.get(k)!) : null),
+        put: async (k: string, v: string) => {
+          puts.push(JSON.parse(v));
+          store.set(k, v);
+        },
+      },
+    };
+  }
+
+  function run(entry: unknown, now: number, build: () => Promise<string>, path = "/card.svg") {
+    const { kv, puts } = fakeKv(entry);
+    const background: Promise<unknown>[] = [];
+    let builds = 0;
+    const counted = () => {
+      builds++;
+      return build();
+    };
+    const res = serveCard(new Request(`https://stats.example${path}`), {
+      kv,
+      now,
+      build: counted,
+      waitUntil: (p) => background.push(p),
+    });
+    return { res, puts, background, builds: () => builds };
+  }
+
+  test("serves a fresh stored card without calling GitHub", async () => {
+    const r = run({ svg: "<svg>old</svg>", at: T0 }, T0 + 5 * MIN, async () => "<svg>new</svg>");
+    const res = await r.res;
+    expect(await res.text()).toBe("<svg>old</svg>");
+    expect(res.headers.get("content-type")).toBe("image/svg+xml; charset=utf-8");
+    expect(res.headers.get("cache-control")).toBe("public, max-age=900");
+    expect(r.builds()).toBe(0);
+  });
+
+  test("serves a stale card immediately and refreshes it in the background", async () => {
+    const r = run({ svg: "<svg>old</svg>", at: T0 }, T0 + 20 * MIN, async () => "<svg>new</svg>");
+    expect(await (await r.res).text()).toBe("<svg>old</svg>");
+    await Promise.all(r.background);
+    expect(r.builds()).toBe(1);
+    expect(r.puts).toEqual([{ svg: "<svg>new</svg>", at: T0 + 20 * MIN }]);
+  });
+
+  test("a failed refresh keeps the old card and waits 15 minutes before trying again", async () => {
+    const r = run({ svg: "<svg>old</svg>", at: T0 }, T0 + 20 * MIN, async () => {
+      throw new Error("GitHub API 502");
+    });
+    expect(await (await r.res).text()).toBe("<svg>old</svg>");
+    await Promise.all(r.background);
+    expect(r.puts).toEqual([{ svg: "<svg>old</svg>", at: T0, tried: T0 + 20 * MIN }]);
+
+    const again = run({ svg: "<svg>old</svg>", at: T0, tried: T0 + 20 * MIN }, T0 + 30 * MIN, async () => "<svg>new</svg>");
+    await again.res;
+    await Promise.all(again.background);
+    expect(again.builds()).toBe(0);
+  });
+
+  test("builds and stores the card on the very first request", async () => {
+    const r = run(undefined, T0, async () => "<svg>first</svg>");
+    expect(await (await r.res).text()).toBe("<svg>first</svg>");
+    await Promise.all(r.background);
+    expect(r.puts).toEqual([{ svg: "<svg>first</svg>", at: T0 }]);
+  });
+
+  test("answers 'unavailable' with a short cache when the first build fails", async () => {
+    const r = run(undefined, T0, async () => {
+      throw new Error("boom");
+    });
+    const res = await r.res;
+    expect(await res.text()).toBe(renderUnavailable());
+    expect(res.headers.get("cache-control")).toBe("public, max-age=60");
   });
 
   test("returns 404 for any other path", async () => {
-    const res = await handle(new Request("https://stats.example/other"), { token: "t", login: "x", fetchFn: pagedFetch });
-    expect(res.status).toBe(404);
-  });
-
-  test("returns an 'unavailable' svg with a short cache when GitHub fails", async () => {
-    const bad = async () => new Response("nope", { status: 502 });
-    const res = await handle(req(), { token: "t", login: "x", fetchFn: bad });
-    expect(res.status).toBe(200);
-    expect(res.headers.get("cache-control")).toBe("public, max-age=60");
-    expect(await res.text()).toBe(renderUnavailable());
+    const r = run(undefined, T0, async () => "<svg/>", "/other");
+    expect((await r.res).status).toBe(404);
+    expect(r.builds()).toBe(0);
   });
 });

@@ -10,6 +10,7 @@ export default defineConfig({
 		env: {
 			GITHUB_LOGIN: bindings.text("belajarcarabelajar"),
 			GITHUB_TOKEN: bindings.secret(),
+			CARD_KV: bindings.kv(),
 		},
 	},
 });
