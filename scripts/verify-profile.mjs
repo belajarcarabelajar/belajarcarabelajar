@@ -765,7 +765,7 @@ export function checkHtmlBoundaries({ content, file, section }) {
 /* ------------------------------------------------------------------ */
 
 const CONTRIBUTION_GRAPH_RE = /github-readme-activity-graph\.vercel\.app|gitlyy\.vercel\.app\/api\/contribution|contrib\.rocks|github-readme-stats.*contribution|contribution-graphs?\./i;
-const GITHUB_STATS_RE = /github-stats-extended\.vercel\.app|github-readme-stats\.vercel\.app|github-profile-summary-cards|github-readme-streak-stats/i;
+const GITHUB_STATS_RE = /stats\.belajarcarabelajar\.com\/card\.svg|github-stats-extended\.vercel\.app|github-readme-stats\.vercel\.app|github-profile-summary-cards|github-readme-streak-stats/i;
 
 export function checkStatsPresence({ content, file, section }) {
   const failures = [];
