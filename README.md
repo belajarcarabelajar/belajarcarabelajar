@@ -16,7 +16,7 @@ Founder, [BCB Academy](https://belajarcarabelajar.com). I build tools that help 
 <!-- section: activity -->
 ## GitHub Activity
 <p align="center"><img src="https://gitlyy.vercel.app/api/contribution?username=belajarcarabelajar&hide_border=true" alt="GitHub Activity Graph" width="100%" /></p>
-<p align="center"><img src="https://github-stats-extended.vercel.app/api?username=belajarcarabelajar&show_icons=true&theme=tokyonight&hide_border=true" alt="GitHub Stats" height="180" /></p>
+<p align="center"><img src="https://stats.belajarcarabelajar.com/card.svg" alt="GitHub Stats" height="180" /></p>
 
 <!-- section: what-im-doing -->
 ## What I'm Doing

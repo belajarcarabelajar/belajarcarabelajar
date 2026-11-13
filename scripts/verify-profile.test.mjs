@@ -599,6 +599,13 @@ describe("stats presence", () => {
     const failures = checkStatsPresence({ content, file: "README.md", section: "all" });
     expect(rulesOf(failures)).toContain("missing-github-stats");
   });
+
+  test("the self-hosted Cloudflare stats card counts as GitHub stats", () => {
+    const content =
+      `<img src="https://gitlyy.vercel.app/api/contribution?username=belajarcarabelajar" alt="Activity" />\n` +
+      `<img src="https://stats.belajarcarabelajar.com/card.svg" alt="GitHub Stats" />`;
+    expect(checkStatsPresence({ content, file: "README.md", section: "all" })).toEqual([]);
+  });
 });
 
 describe("validateContent / validateFile", () => {
